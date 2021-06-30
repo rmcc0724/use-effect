@@ -1,46 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
-import Card from '../UI/Card/Card';
-import classes from './Login.module.css';
-import Button from '../UI/Button/Button';
+import Card from '../UI/Card/Card'
+import classes from './Login.module.css'
+import Button from '../UI/Button/Button'
 
 const Login = (props) => {
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [emailIsValid, setEmailIsValid] = useState();
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [passwordIsValid, setPasswordIsValid] = useState();
-  const [formIsValid, setFormIsValid] = useState(false);
+  const [enteredEmail, setEnteredEmail] = useState('')
+  const [emailIsValid, setEmailIsValid] = useState()
+  const [enteredPassword, setEnteredPassword] = useState('')
+  const [passwordIsValid, setPasswordIsValid] = useState()
+  const [formIsValid, setFormIsValid] = useState(false)
 
-  useEffect(()=>{
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log("Checkig for validity.");
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6,
+      )
+    }, 5000)
+    return () => {
+      console.log("CLEANUP");
+      clearTimeout(identifier);
+    };
   }, [enteredEmail, enteredPassword])
 
   const emailChangeHandler = (event) => {
-    setEnteredEmail(event.target.value);
-  };
+    setEnteredEmail(event.target.value)
+  }
 
   const passwordChangeHandler = (event) => {
-    setEnteredPassword(event.target.value);
+    setEnteredPassword(event.target.value)
 
     setFormIsValid(
-      event.target.value.trim().length > 6 && enteredEmail.includes('@')
-    );
-  };
+      event.target.value.trim().length > 6 && enteredEmail.includes('@'),
+    )
+  }
 
   const validateEmailHandler = () => {
-    setEmailIsValid(enteredEmail.includes('@'));
-  };
+    setEmailIsValid(enteredEmail.includes('@'))
+  }
 
   const validatePasswordHandler = () => {
-    setPasswordIsValid(enteredPassword.trim().length > 6);
-  };
+    setPasswordIsValid(enteredPassword.trim().length > 6)
+  }
 
   const submitHandler = (event) => {
-    event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
-  };
+    event.preventDefault()
+    props.onLogin(enteredEmail, enteredPassword)
+  }
 
   return (
     <Card className={classes.login}>
@@ -80,7 +87,7 @@ const Login = (props) => {
         </div>
       </form>
     </Card>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
